@@ -1,0 +1,76 @@
+﻿@model DogGo.Models.ViewModels.WalkerViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+<div class="row flex-column" style="margin-top:20px">
+<h2 class="ml-0">Walker Profile</h2>
+<div class="row">
+    <img class="bg-info mr-5" src="@Model.Walker.ImageUrl" alt="avatar" style="width:100px;height:100px"/>
+            <dl class="row justify-content-between flex-column" style="width:400px">
+                <div class="row" style="width:800px">
+                    <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Walker.Name)
+        </dt>
+                    <dd class="col-sm-2">
+            @Html.DisplayFor(model => model.Walker.Name)
+        </dd>
+            </div>
+            <div class="row justify-content-between">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Walker.Neighborhood)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Walker.Neighborhood.Name)
+        </dd>
+        </div>
+    </dl>
+    </div>
+</div>
+    <div class=" row justify-content-between" style="height:500px">
+    <div class="row w-100 justify-content-between" style="margin-top:75px">
+<div class="row flex-column" style="width:300px">
+    @{
+        int totalTime = 0;
+    }
+    <h3>Recent Walks</h3>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Duration</th>
+        </tr>
+    @foreach (Walks walk in Model.Walks)
+    {
+        <tr>
+        <td>@(String.Format("{0:d}", @walk.Date))</td>
+        <td>@walk.Owner.Name</td>
+        <td>@(walk.Duration/60) Mins</td>
+        </tr>
+            {
+                totalTime += walk.Duration/60;
+            }
+    }
+    </table>
+        @{
+            int hours = totalTime / 60;
+            int minutes = totalTime % 60;
+        }
+</div>
+        <div class="row justify-content-end">
+    <h3>Total Walk Time: @(hours) Hrs @(minutes) Mins</h3>
+</div>
+
+</div>
+<div>
+    </div>
+    <div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+    </div>
+    </div>
+</div>
+
+
